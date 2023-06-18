@@ -5,48 +5,57 @@ import 'package:get/get.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:to_do_app/model/noteModel.dart';
 
-class DB extends GetxController {
+class DB {
   DB._();
   static DB get instance => DB._();
 
-  final RxString key = 'notes'.obs;
+  static  String key = 'notes';
 
   SharedPreferences? pref;
 
   reset() async {
-    SharedPreferences pref = await SharedPreferences.getInstance();
+    pref = await SharedPreferences.getInstance();
   }
 
   Future<List<Note>> get future async {
-    // await reset();
-    print("1");
-    SharedPreferences pref = await SharedPreferences.getInstance();
-    if (pref.getString(key.value) == null) {
-      print("1");
-      await pref.setString(key.value, jsonEncode([]));
-      print("1");
+    await reset();
+    print("key :" + key);
+    // print("1");
+    var data = pref?.getString(key);
+    print("value :" + data.toString());
+    //SharedPreferences pref = await SharedPreferences.getInstance();
+    if (data == null) {
+      // print("1");
+      await pref?.setString(key, jsonEncode([]));
+      // print("1");
       // await reset();
     }
-    String? source = pref.getString(key.value);
-    print("1");
+    String? source = pref?.getString(key);
+    print("1" + source.toString());
+    // print("1");
     List<Map<String, dynamic>> maplist = List.from(jsonDecode(source ?? '[]'));
-    print("1");
+    // print("1");
     print(maplist);
     return maplist.map((e) => Note.ofJson(e)).toList();
   }
 
   updateAll(List<Note> notes) async {
     await reset();
+    print(notes[0].title);
+    print('ABC');
+
+    print(notes[0].id);
+
     await pref?.setString(
-        key.value, jsonEncode(notes.map((e) => e.json).toList()));
-    update();
+        key, jsonEncode(notes.map((e) => e.json).toList()));
   }
 
   insert(Note note) async {
     final notes = await future;
     notes.add(note);
+    print(notes[0].id);
+    print(notes[0].title);
     await updateAll(notes);
-    update();
   }
 
   updateNote(Note note) async {
@@ -56,7 +65,6 @@ class DB extends GetxController {
       notes[ind] = note;
       await updateAll(notes);
     }
-    update();
   }
 
   delete(Note note) async {
@@ -66,6 +74,5 @@ class DB extends GetxController {
       notes.removeAt(ind);
       await updateAll(notes);
     }
-    update();
   }
 }

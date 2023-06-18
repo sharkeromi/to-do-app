@@ -2,13 +2,17 @@ import 'package:flutter/material.dart';
 import 'package:flutter/src/widgets/framework.dart';
 import 'package:flutter/src/widgets/placeholder.dart';
 import 'package:get/get.dart';
+import 'package:to_do_app/controllers/noteController.dart';
 import 'package:to_do_app/utils/customButton.dart';
 import 'package:to_do_app/utils/customDatePicker.dart';
 import 'package:to_do_app/utils/customTextField.dart';
 import 'package:to_do_app/utils/customTimePicker.dart';
 
 class AddToDo extends StatelessWidget {
-  const AddToDo({super.key});
+  var noteID;
+
+  AddToDo({Key? key, required this.noteID}) : super(key: key);
+  NoteController noteController = Get.put(NoteController());
 
   @override
   Widget build(BuildContext context) {
@@ -54,7 +58,7 @@ class AddToDo extends StatelessWidget {
                   // Task Title Here
                   child: CustomTextField(
                     hintText: 'Write a Task Title',
-                    controller: null,
+                    controller: noteController.titleTextEditor,
                   ),
                   // HERE
                 ),
@@ -71,7 +75,7 @@ class AddToDo extends StatelessWidget {
                   // Task Note Here
                   child: CustomTextField(
                     hintText: 'Write a Task Note',
-                    controller: null,
+                    controller: noteController.noteTextEditor,
                   ),
                   // HERE
                 ),
@@ -104,7 +108,11 @@ class AddToDo extends StatelessWidget {
                     text: "Add",
                     height: 45,
                     width: 150,
-                    navigation: () {
+                    navigation: () async {
+                      //  print(noteController.noteTextEditor.text);
+
+                      await noteController.saveNote(noteID);
+                      noteController.isLoading.value= false;
                       Get.back();
                     })
               ],

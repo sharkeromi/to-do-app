@@ -14,7 +14,7 @@ class TestScreen extends StatelessWidget {
       body: Padding(
         padding: EdgeInsets.all(20),
         child: Center(
-          child: NoteWidget(),
+          child:SizedBox(),
         ),
       ),
     );

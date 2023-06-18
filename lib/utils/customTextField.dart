@@ -1,9 +1,11 @@
 import 'package:flutter/material.dart';
-import 'package:flutter/src/widgets/framework.dart';
-import 'package:flutter/src/widgets/placeholder.dart';
+import 'package:get/get.dart';
+import 'package:to_do_app/controllers/noteController.dart';
 
 class CustomTextField extends StatelessWidget {
   var controller;
+
+  NoteController noteController = Get.put(NoteController());
 
   String hintText;
 
@@ -13,6 +15,7 @@ class CustomTextField extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return TextField(
+      controller: controller,
       keyboardType: TextInputType.multiline,
       maxLines: hintText == "Write a Task Title" ? 1 : null,
       decoration: InputDecoration(

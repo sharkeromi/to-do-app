@@ -8,28 +8,32 @@ class Note {
   String? endTime;
 
   Note(
-      {this.title,
+      {String? id,
+      this.title,
       this.notedTask,
       this.startDate,
       this.endDate,
       this.endTime,
       this.startTime,
-      String? id}) {
-    id = id ?? generateId;
+      }) {
+    _id = id ?? generateId;
   }
 
   factory Note.ofJson(Map<String, dynamic> map) {
-    if (map.isEmpty) {
-      return Note(
-        id: '',
-        title: '',
-        notedTask: '',
-        startDate: DateTime.now(),
-        endDate: DateTime.now(),
-        startTime: '',
-        endTime: '',
-      );
-    }
+    // if (map.isEmpty) {
+    //   print(2);
+    //   return Note(
+    //     id: '',
+    //     title: '',
+    //     notedTask: '',
+    //     startDate: DateTime.now(),
+    //     endDate: DateTime.now(),
+    //     startTime: '',
+    //     endTime: '',
+    //   );
+    // }
+    // print(2);
+
     return Note(
       id: map['id'] ?? '',
       title: map['title'] ?? '',

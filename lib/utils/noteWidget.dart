@@ -1,34 +1,50 @@
 import 'package:flutter/material.dart';
-import 'package:flutter/src/widgets/framework.dart';
-import 'package:flutter/src/widgets/placeholder.dart';
+import 'package:to_do_app/model/noteModel.dart';
 
 class NoteWidget extends StatelessWidget {
-  const NoteWidget({super.key});
+  var title;
 
+  var notedTask;
+
+  var id;
+
+  // final Note noteID;
+
+  NoteWidget(
+      {Key? key,
+      required this.id,
+      required this.title,
+      required this.notedTask})
+      : super(key: key);
   @override
   Widget build(BuildContext context) {
+    print(id);
     return Container(
-      height: 100,
+      height: 120,
       decoration: BoxDecoration(
         border:
             Border.all(color: Colors.grey, width: 1, style: BorderStyle.solid),
         borderRadius: BorderRadius.circular(10),
         color: Colors.white,
       ),
-      padding: const EdgeInsets.all(10),
+      padding: const EdgeInsets.only(left: 10, right: 10),
       alignment: Alignment.centerLeft,
       child: Column(
         mainAxisAlignment: MainAxisAlignment.spaceEvenly,
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           Text(
-            "Title Text",
-            style: TextStyle(fontFamily: 'Euclid'),
+            title,
+            style: const TextStyle(fontFamily: 'Euclid'),
           ),
           Text(
-            "Lorem Ipsum dolor sit amet, consectetur elit. Risus est senectus est",
-            style: TextStyle(fontFamily: 'Euclid Regular'),
-          )
+            notedTask,
+            overflow: TextOverflow.ellipsis,
+            style: const TextStyle(fontFamily: 'Euclid Regular'),
+          ),
+          Text("27 February at 3.00 AM - 28 February at 3.00 AM ",
+              overflow: TextOverflow.ellipsis,
+              style: TextStyle(fontFamily: 'Euclid Regular'))
         ],
       ),
     );
