@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:to_do_app/model/noteModel.dart';
 
 class NoteWidget extends StatelessWidget {
   var title;

@@ -1,9 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:flutter/src/widgets/framework.dart';
-import 'package:flutter/src/widgets/placeholder.dart';
-import 'package:to_do_app/utils/customButton.dart';
-import 'package:to_do_app/utils/customTextField.dart';
-import 'package:to_do_app/utils/noteWidget.dart';
 
 class TestScreen extends StatelessWidget {
   const TestScreen({super.key});

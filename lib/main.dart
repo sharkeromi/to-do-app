@@ -1,11 +1,14 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:shared_preferences/shared_preferences.dart';
+import 'package:to_do_app/controllers/getxDependency.dart';
 import 'package:to_do_app/screens/splashScreen.dart';
-import 'package:to_do_app/screens/testScreen.dart';
+
 
 void main() {
   SharedPreferences.setMockInitialValues({});
+  //InitialBinding().dependencies();
+  WidgetsFlutterBinding.ensureInitialized();
   runApp(const MyApp());
 }
 
@@ -22,6 +25,7 @@ class MyApp extends StatelessWidget {
             seedColor: const Color.fromARGB(240, 46, 47, 47)),
         useMaterial3: true,
       ),
+      initialBinding: InitialBinding(),
       //home: TestScreen()
       home: SplashScreen(),
     );

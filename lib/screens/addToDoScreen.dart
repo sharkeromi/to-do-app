@@ -1,6 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:flutter/src/widgets/framework.dart';
-import 'package:flutter/src/widgets/placeholder.dart';
 import 'package:get/get.dart';
 import 'package:to_do_app/controllers/noteController.dart';
 import 'package:to_do_app/utils/customButton.dart';
@@ -12,7 +10,8 @@ class AddToDo extends StatelessWidget {
   var noteID;
 
   AddToDo({Key? key, required this.noteID}) : super(key: key);
-  NoteController noteController = Get.put(NoteController());
+  //NoteController noteController = Get.put(NoteController());
+  NoteController noteController = Get.find<NoteController>();
 
   @override
   Widget build(BuildContext context) {
@@ -113,7 +112,7 @@ class AddToDo extends StatelessWidget {
 
                       await noteController.saveNote(noteID);
                       noteController.isLoading.value= false;
-                      Get.back();
+                     // Get.back();
                     })
               ],
             ),

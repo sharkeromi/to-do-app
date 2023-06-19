@@ -1,13 +1,11 @@
 import 'dart:convert';
-import 'dart:ffi';
-
 import 'package:get/get.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:to_do_app/model/noteModel.dart';
 
-class DB {
-  DB._();
-  static DB get instance => DB._();
+class DB extends GetxController {
+  // DB._();
+  // static DB get instance => DB._();
 
   static  String key = 'notes';
 
@@ -41,11 +39,6 @@ class DB {
 
   updateAll(List<Note> notes) async {
     await reset();
-    print(notes[0].title);
-    print('ABC');
-
-    print(notes[0].id);
-
     await pref?.setString(
         key, jsonEncode(notes.map((e) => e.json).toList()));
   }

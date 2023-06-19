@@ -1,11 +1,7 @@
 import 'package:flutter/material.dart';
-import 'package:get/get.dart';
-import 'package:to_do_app/controllers/noteController.dart';
 
 class CustomTextField extends StatelessWidget {
   var controller;
-
-  NoteController noteController = Get.put(NoteController());
 
   String hintText;
 

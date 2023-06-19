@@ -1,13 +1,16 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:to_do_app/controllers/sp_class.dart';
 import 'package:to_do_app/model/noteModel.dart';
 import 'package:to_do_app/utils/sharedPref.dart';
 
 class NoteController extends GetxController {
+  //SplashScreenController splashScreenController = Get.find();
+  final SP sp = SP();
   RxBool isLoading = RxBool(false);
   var uniqueID = UniqueKey().hashCode;
   Note noteModel = Note();
-  //DB db = Get.put(DB());
+  DB db = Get.put(DB());
   //final Note? note;
   RxList<Note> notes = RxList([]);
   //RxInt note=0.obs;
@@ -26,15 +29,16 @@ class NoteController extends GetxController {
   // }
 
   deleteNote(Note note) async {
-    await DB.instance.delete(note);
+    await db.delete(note);
     update();
   }
 
   saveNote(noteID) async {
+    print(noteID);
     isLoading.value = true;
     // print(noteModel.id);
     final note = Note(
-        id: noteID ?? uniqueID,
+        id: noteID == '' ? uniqueID.toString() : noteID,
         title: titleTextEditor.text.trim(),
         notedTask: noteTextEditor.text.trim(),
         startDate: startDate.value,
@@ -42,7 +46,9 @@ class NoteController extends GetxController {
         startTime: startTime.value,
         endTime: endTime.value);
     if (noteID == '') {
-      await insert(note);
+      //await insert(note);
+    
+      sp.setList(note);
     } else {
       updateExisitingNote(note);
     }
@@ -51,17 +57,17 @@ class NoteController extends GetxController {
 
   insert(Note note) async {
     print(noteModel.title);
-    await DB.instance.insert(note);
+    await db.insert(note);
     update();
   }
 
   updateExisitingNote(note) async {
-    DB.instance.updateNote(note);
+    db.updateNote(note);
     update();
   }
 
   delete(note) async {
-    DB.instance.delete(note);
+    db.delete(note);
     update();
   }
 }
