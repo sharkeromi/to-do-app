@@ -1,12 +1,17 @@
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
+import 'package:to_do_app/controllers/dateController.dart';
+import 'package:to_do_app/controllers/noteController.dart';
 
 class CustomDatePicker extends StatelessWidget {
   var boxTextString;
 
-  CustomDatePicker({
-    super.key,
-    required this.boxTextString,
-  });
+  var datePicker;
+
+  CustomDatePicker(
+      {super.key, required this.boxTextString, required this.datePicker});
+  DateController dateController = Get.put(DateController());
+  NoteController noteController = Get.find();
 
   @override
   Widget build(BuildContext context) {
@@ -18,8 +23,11 @@ class CustomDatePicker extends StatelessWidget {
         padding: EdgeInsets.zero,
         minimumSize: Size.zero,
       ),
-      onPressed: () {
+      onPressed: () async {
         //date picker popup
+        boxTextString == "Start Date"
+            ? dateController.starDateChecker(context)
+            : dateController.endDateChecker(context);
       },
       child: Container(
           padding: const EdgeInsets.all(10),
@@ -33,30 +41,25 @@ class CustomDatePicker extends StatelessWidget {
             color: Colors.white,
           ),
           // Task Note Here
-          child: Text(
-            boxTextString,
-            style: const TextStyle(
-                fontFamily: 'Euclid Regular', color: Colors.black54),
-          )
+          child: Obx(() => boxText())
           // HERE
           ),
     );
   }
-  // boxText() {
-  //   if (datePicker.value == "") {
-  //     return Text(boxTextString,
-  //         style: const TextStyle(
-  //           fontSize: 14,
-  //           fontFamily: 'Euclid Regular',
-  //           color: Colors.black,
-  //         ));
-  //   } else {
-  //     return Text(datePicker.value,
-  //         style: const TextStyle(
-  //           fontSize: 14,
-  //           fontFamily: 'Euclid Regular',
-  //           color: Colors.black,
-  //         ));
-  //   }
-  // }
+
+  boxText() {
+    if (datePicker.value == "") {
+      return Text(
+        boxTextString,
+        style: const TextStyle(
+            fontFamily: 'Euclid Regular', color: Colors.black54),
+      );
+    } else {
+      return Text(
+        datePicker.value,
+        style:
+            const TextStyle(fontFamily: 'Euclid Regular', color: Colors.black),
+      );
+    }
+  }
 }

@@ -1,22 +1,22 @@
 class Note {
-  String? _id;
+  String? id;
   String? title;
   String? notedTask;
-  DateTime? startDate;
-  DateTime? endDate;
+  String? startDate;
+  String? endDate;
   String? startTime;
   String? endTime;
 
-  Note(
-      {String? id,
-      this.title,
-      this.notedTask,
-      this.startDate,
-      this.endDate,
-      this.endTime,
-      this.startTime,
-      }) {
-    _id = id ?? generateId;
+  Note({
+    String? id,
+    this.title,
+    this.notedTask,
+    this.startDate,
+    this.endDate,
+    this.endTime,
+    this.startTime,
+  }) {
+    //_id = id ?? generateId;
   }
 
   factory Note.ofJson(Map<String, dynamic> map) {
@@ -38,8 +38,8 @@ class Note {
       id: map['id'] ?? '',
       title: map['title'] ?? '',
       notedTask: map['notedTask'] ?? '',
-      startDate: DateTime.tryParse(['startDate'].toString()) ?? DateTime.now(),
-      endDate: DateTime.tryParse(map['endDate'].toString()) ?? DateTime.now(),
+      startDate: map['startDate'] ?? '',
+      endDate: map['endDate'] ?? '',
       startTime: map['startTime'] ?? '',
       endTime: map['endTime'] ?? '',
     );
@@ -49,13 +49,13 @@ class Note {
         'id': id,
         'title': title,
         'notedTask': notedTask,
-        'startDate': startDate.toString(),
-        'endDate': endDate.toString(),
+        'startDate': startDate,
+        'endDate': endDate,
         'startTime': startTime,
         'endTime': endTime,
       };
 
-  String get id => _id ?? generateId;
+  // String get id => _id ?? generateId;
 
-  String get generateId => DateTime.now().microsecondsSinceEpoch.toString();
+  // String get generateId => DateTime.now().microsecondsSinceEpoch.toString();
 }

@@ -8,7 +8,8 @@ class NoteController extends GetxController {
   //SplashScreenController splashScreenController = Get.find();
   final SP sp = SP();
   RxBool isLoading = RxBool(false);
-  var uniqueID = UniqueKey().hashCode;
+  RxBool initialDataExistence = RxBool(false);
+  //var uniqueID = UniqueKey().hashCode;
   Note noteModel = Note();
   DB db = Get.put(DB());
   //final Note? note;
@@ -19,8 +20,10 @@ class NoteController extends GetxController {
   TextEditingController noteTextEditor = TextEditingController();
 
   RxString id = "".obs;
-  Rx<DateTime> startDate = Rx<DateTime>(DateTime.now());
-  Rx<DateTime> endDate = Rx<DateTime>(DateTime.now());
+  RxString startDate = "".obs;
+  //Rx<DateTime> startDate = Rx<DateTime>(DateTime.now());
+  //Rx<DateTime> endDate = Rx<DateTime>(DateTime.now());
+  RxString endDate = "".obs;
   RxString startTime = "".obs;
   RxString endTime = "".obs;
 
@@ -46,7 +49,7 @@ class NoteController extends GetxController {
     isLoading.value = true;
     // print(noteModel.id);
     final note = Note(
-        id: noteID == '' ? uniqueID.toString() : noteID,
+        id: noteID,
         title: titleTextEditor.text.trim(),
         notedTask: noteTextEditor.text.trim(),
         startDate: startDate.value,
@@ -56,7 +59,7 @@ class NoteController extends GetxController {
     if (noteID == '') {
       //await insert(note);
 
-     await  sp.setList(note);
+      await sp.setList(note);
     } else {
       updateExisitingNote(note);
     }
@@ -76,6 +79,16 @@ class NoteController extends GetxController {
 
   delete(note) async {
     db.delete(note);
+    update();
+  }
+
+   void clearData() {
+    titleTextEditor.clear();
+    noteTextEditor.clear();
+    startDate.value = '';
+    endDate.value = '';
+    startTime.value = '';
+    endTime.value = '';
     update();
   }
 }

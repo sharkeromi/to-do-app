@@ -84,9 +84,11 @@ class AddToDo extends StatelessWidget {
                   children: [
                     CustomDatePicker(
                       boxTextString: "Start Date",
+                      datePicker: noteController.startDate,
                     ),
                     CustomTimePicker(
                       boxTextString: "Start Time",
+                      timePicker: noteController.startTime,
                     )
                   ],
                 ),
@@ -96,9 +98,11 @@ class AddToDo extends StatelessWidget {
                   children: [
                     CustomDatePicker(
                       boxTextString: "End Date",
+                      datePicker: noteController.endDate,
                     ),
                     CustomTimePicker(
                       boxTextString: "End Time",
+                      timePicker: noteController.endTime,
                     )
                   ],
                 ),
@@ -113,8 +117,9 @@ class AddToDo extends StatelessWidget {
 
                       await noteController.saveNote(noteID);
                       await noteController.loadData();
+                      noteController.clearData();
                       //noteController.isLoading.value= false;
-                     Get.back();
+                      Get.back();
                     })
               ],
             ),

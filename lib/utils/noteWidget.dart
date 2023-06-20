@@ -7,19 +7,28 @@ class NoteWidget extends StatelessWidget {
 
   var id;
 
+  var startDate;
+  var endDate;
+  var startTime;
+  var endTime;
+
   // final Note noteID;
 
   NoteWidget(
       {Key? key,
       required this.id,
       required this.title,
-      required this.notedTask})
+      required this.notedTask,
+      required this.startDate,
+      required this.endDate,
+      required this.startTime,
+      required this.endTime})
       : super(key: key);
   @override
   Widget build(BuildContext context) {
     // print(id);
     return Container(
-      height: 120,
+      height: 110,
       decoration: BoxDecoration(
         border:
             Border.all(color: Colors.grey, width: 1, style: BorderStyle.solid),
@@ -34,16 +43,24 @@ class NoteWidget extends StatelessWidget {
         children: [
           Text(
             title,
-            style: const TextStyle(fontFamily: 'Euclid'),
+            style: const TextStyle(fontFamily: 'Euclid', fontSize: 20),
           ),
           Text(
             notedTask,
             overflow: TextOverflow.ellipsis,
-            style: const TextStyle(fontFamily: 'Euclid Regular'),
+            style: const TextStyle(fontFamily: 'Euclid Regular', fontSize: 16),
           ),
-          Text("27 February at 3.00 AM - 28 February at 3.00 AM ",
-              overflow: TextOverflow.ellipsis,
-              style: TextStyle(fontFamily: 'Euclid Regular'))
+          Text(
+              "${startDate}" +
+                  " at " +
+                  "${startTime}" +
+                  " - " +
+                  "${endDate}" +
+                  " at " +
+                  "${endTime}",
+              overflow: TextOverflow.clip,
+              style:
+                  const TextStyle(fontFamily: 'Euclid Regular', fontSize: 14))
         ],
       ),
     );
