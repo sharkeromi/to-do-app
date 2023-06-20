@@ -108,11 +108,13 @@ class AddToDo extends StatelessWidget {
                     height: 45,
                     width: 150,
                     navigation: () async {
+                      noteController.isLoading.value = true;
                       //  print(noteController.noteTextEditor.text);
 
                       await noteController.saveNote(noteID);
-                      noteController.isLoading.value= false;
-                     // Get.back();
+                      await noteController.loadData();
+                      //noteController.isLoading.value= false;
+                     Get.back();
                     })
               ],
             ),

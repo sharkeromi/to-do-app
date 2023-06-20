@@ -17,10 +17,10 @@ class DB extends GetxController {
 
   Future<List<Note>> get future async {
     await reset();
-    print("key :" + key);
+    // print("key :" + key);
     // print("1");
     var data = pref?.getString(key);
-    print("value :" + data.toString());
+    print("value : " + data.toString());
     //SharedPreferences pref = await SharedPreferences.getInstance();
     if (data == null) {
       // print("1");

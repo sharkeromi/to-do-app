@@ -1,28 +1,28 @@
 import 'dart:convert';
 
+import 'package:get/get.dart';
 import 'package:shared_preferences/shared_preferences.dart';
+import 'package:to_do_app/controllers/noteController.dart';
 import 'package:to_do_app/model/noteModel.dart';
 
 const keyNote = 'notes';
 
 class SP {
-  
   getList() async {
     SharedPreferences spref = await SharedPreferences.getInstance();
     var noteList = await spref.getString(keyNote);
-    print(noteList);
+    // print(noteList);
     if (noteList == null) {
       print('1');
       await spref.setString(keyNote, json.encode([]));
       return [];
     } else {
-      print("2");
-      // NoteController noteController = Get.find<NoteController>();
+      NoteController noteController = Get.find<NoteController>();
 
       var source = json.decode(noteList);
-      // List<Map<String, dynamic>> newNoteList = List.from(source);
-      // noteController.notes.value =
-      //     newNoteList.map((e) => Note.ofJson(e)).toList();
+      List<Map<String, dynamic>> newNoteList = List.from(source);
+      noteController.notes.value =
+          newNoteList.map((e) => Note.ofJson(e)).toList();
 
       return source;
     }
@@ -35,13 +35,13 @@ class SP {
       'title': notes.title,
       'notedTask': notes.notedTask
     };
-    print(oldList);
+    // print(oldList);
     oldList.add(data);
-    print(oldList);
+    // print(oldList);
     SharedPreferences spref = await SharedPreferences.getInstance();
     await spref.setString(keyNote, json.encode(oldList));
     var temp = await spref.getString(keyNote);
-    print(temp);
+    print('after save' + temp.toString());
   }
 
   remove() async {

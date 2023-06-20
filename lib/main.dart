@@ -1,12 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:shared_preferences/shared_preferences.dart';
 import 'package:to_do_app/controllers/getxDependency.dart';
 import 'package:to_do_app/screens/splashScreen.dart';
 
-
 void main() {
-  SharedPreferences.setMockInitialValues({});
+  //SharedPreferences.setMockInitialValues({});
   //InitialBinding().dependencies();
   WidgetsFlutterBinding.ensureInitialized();
   runApp(const MyApp());

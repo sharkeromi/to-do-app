@@ -17,7 +17,7 @@ class NoteWidget extends StatelessWidget {
       : super(key: key);
   @override
   Widget build(BuildContext context) {
-    print(id);
+    // print(id);
     return Container(
       height: 120,
       decoration: BoxDecoration(

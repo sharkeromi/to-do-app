@@ -28,13 +28,21 @@ class NoteController extends GetxController {
   //   Get.to(()=>NoteView(note: note));
   // }
 
+  loadData() async {
+    //await Future.delayed(Duration(seconds: 2), () {});
+    SP sp = SP();
+    var source = await sp.getList();
+    print('load' + source.toString());
+    isLoading.value = false;
+  }
+
   deleteNote(Note note) async {
     await db.delete(note);
     update();
   }
 
   saveNote(noteID) async {
-    print(noteID);
+    // print(noteID);
     isLoading.value = true;
     // print(noteModel.id);
     final note = Note(
@@ -47,8 +55,8 @@ class NoteController extends GetxController {
         endTime: endTime.value);
     if (noteID == '') {
       //await insert(note);
-    
-      sp.setList(note);
+
+     await  sp.setList(note);
     } else {
       updateExisitingNote(note);
     }
@@ -56,7 +64,7 @@ class NoteController extends GetxController {
   }
 
   insert(Note note) async {
-    print(noteModel.title);
+    // print(noteModel.title);
     await db.insert(note);
     update();
   }

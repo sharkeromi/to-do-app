@@ -1,18 +1,15 @@
 import 'package:get/get.dart';
 import 'package:to_do_app/controllers/noteController.dart';
 import 'package:to_do_app/controllers/sp_class.dart';
-//import 'package:to_do_app/model/noteModel.dart';
-// import 'package:to_do_app/screens/HomePage.dart';
-import 'package:to_do_app/screens/addToDoScreen.dart';
+import 'package:to_do_app/screens/HomePage.dart';
 import 'package:to_do_app/utils/sharedPref.dart';
 
 class SplashScreenController extends GetxController {
   final SP sp = SP();
-  //NoteController noteController = Get.find<NoteController>();
-  //DB db = Get.put(DB());
+
   @override
   void onInit() async {
-    //await sp.remove();
+    await sp.remove();
     //NoteController noteController = Get.put(NoteController());
     await sp.getList();
     await navigateToHome();
@@ -21,16 +18,16 @@ class SplashScreenController extends GetxController {
 
   navigateToHome() async {
     await Future.delayed(Duration(seconds: 3), () {});
+   
+
     NoteController noteController = Get.find<NoteController>();
     // DB.instance.key.value = 'notes';
-    noteController.isLoading.value = true;
-    DB db = Get.find<DB>();
+    //noteController.isLoading.value = true;
+    //DB db = Get.find<DB>();
 
     //noteController.notes.addAll(await db.future);
     noteController.isLoading.value = false;
 
-    Get.to(() => AddToDo(
-          noteID: '',
-        ));
+    Get.to(() => HomePage());
   }
 }
