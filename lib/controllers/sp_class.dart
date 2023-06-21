@@ -54,6 +54,38 @@ class SP {
     print('after save' + temp.toString());
   }
 
+  editNote(Note notes) async {
+     var oldList = await getList();
+    for(int index= 0; index<=oldList.length; index++){
+      if(index==notes.id){
+    var data = {
+      'id': notes.id,
+      'title': notes.title,
+      'notedTask': notes.notedTask,
+      'startDate': notes.startDate,
+      'endDate': notes.endDate,
+      'startTime': notes.startTime,
+      'endTime': notes.endTime
+    };
+    oldList.add(data);
+      }
+    }
+    SharedPreferences spref = await SharedPreferences.getInstance();
+    await spref.setString(keyNote, json.encode(oldList));
+    var temp = await spref.getString(keyNote);
+    print('after save' + temp.toString());
+  }
+
+  deleteNote(Note note)async{
+    var oldList = await getList();
+    int ind = oldList.indexWhere((e) => e.id == note.id);
+    if (ind >= 0) {
+      oldList.removeAt(ind);
+    }
+    SharedPreferences spref = await SharedPreferences.getInstance();
+    await spref.setString(keyNote, json.encode(oldList));
+  }
+
   remove() async {
     SharedPreferences spref = await SharedPreferences.getInstance();
     await spref.remove(keyNote);

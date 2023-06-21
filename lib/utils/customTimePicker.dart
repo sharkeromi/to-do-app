@@ -8,10 +8,12 @@ class CustomTimePicker extends StatelessWidget {
   var boxTextString;
   var timePicker;
 
-  CustomTimePicker({super.key, required this.boxTextString, required this.timePicker});
+  CustomTimePicker(
+      {super.key, required this.boxTextString, required this.timePicker});
   DateController dateController = Get.put(DateController());
   NoteController noteController = Get.find();
-  CustomSpinnerTimePickerPopUP customSpinnerTimePickerPopUP = CustomSpinnerTimePickerPopUP();
+  CustomSpinnerTimePickerPopUP customSpinnerTimePickerPopUP =
+      CustomSpinnerTimePickerPopUP();
   @override
   Widget build(BuildContext context) {
     var height = MediaQuery.of(context).size.height;
@@ -33,7 +35,9 @@ class CustomTimePicker extends StatelessWidget {
           width: (width - 60) / 2,
           decoration: BoxDecoration(
             border: Border.all(
-                color: Colors.grey, width: 1, style: BorderStyle.solid),
+                color: Colors.grey.shade400,
+                width: 1,
+                style: BorderStyle.solid),
             borderRadius: BorderRadius.circular(10),
             color: Colors.white,
           ),
@@ -46,14 +50,15 @@ class CustomTimePicker extends StatelessWidget {
 
   boxText() {
     if (timePicker.value == "") {
-      return Text(boxTextString,
-          style: const TextStyle(
+      return Text(
+        boxTextString,
+        style: const TextStyle(
             fontFamily: 'Euclid Regular', color: Colors.black54),
       );
     } else {
       return Text(
         timePicker.value,
-       style:
+        style:
             const TextStyle(fontFamily: 'Euclid Regular', color: Colors.black),
       );
     }

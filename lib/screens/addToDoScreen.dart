@@ -18,9 +18,10 @@ class AddToDo extends StatelessWidget {
     var height = MediaQuery.of(context).size.height;
     var width = MediaQuery.of(context).size.width;
     return SafeArea(
-      // top: false,
+      top: false,
       // bottom: false,
       child: Scaffold(
+        backgroundColor: Colors.white,
         appBar: AppBar(
           centerTitle: true,
           backgroundColor: Colors.white,
@@ -42,7 +43,7 @@ class AddToDo extends StatelessWidget {
                 Container(
                   height: 1,
                   // width: width - 16,
-                  color: Colors.black45,
+                  color: Colors.grey.shade400,
                 ),
                 const SizedBox(height: 25),
                 Container(
@@ -50,7 +51,9 @@ class AddToDo extends StatelessWidget {
                   width: width,
                   decoration: BoxDecoration(
                     border: Border.all(
-                        color: Colors.grey, width: 1, style: BorderStyle.solid),
+                        color: Colors.grey.shade400,
+                        width: 1,
+                        style: BorderStyle.solid),
                     borderRadius: BorderRadius.circular(10),
                     color: Colors.white,
                   ),
@@ -61,13 +64,20 @@ class AddToDo extends StatelessWidget {
                   ),
                   // HERE
                 ),
-                const SizedBox(height: 25),
+                Obx(() => Container(
+                      alignment: Alignment.centerRight,
+                      height: 25,
+                      width: width - 60,
+                      child: Text('${noteController.titleWordCount}/50'),
+                    )),
                 Container(
                   height: 150,
                   width: width,
                   decoration: BoxDecoration(
                     border: Border.all(
-                        color: Colors.grey, width: 1, style: BorderStyle.solid),
+                        color: Colors.grey.shade400,
+                        width: 1,
+                        style: BorderStyle.solid),
                     borderRadius: BorderRadius.circular(10),
                     color: Colors.white,
                   ),
@@ -78,7 +88,14 @@ class AddToDo extends StatelessWidget {
                   ),
                   // HERE
                 ),
-                const SizedBox(height: 25),
+                Obx(
+                  () => Container(
+                    alignment: Alignment.centerRight,
+                    height: 25,
+                    width: width - 60,
+                    child: Text('${noteController.noteWordCount}/256'),
+                  ),
+                ),
                 Row(
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
@@ -112,14 +129,7 @@ class AddToDo extends StatelessWidget {
                     height: 45,
                     width: 150,
                     navigation: () async {
-                      noteController.isLoading.value = true;
-                      //  print(noteController.noteTextEditor.text);
-
-                      await noteController.saveNote(noteID);
-                      await noteController.loadData();
-                      noteController.clearData();
-                      //noteController.isLoading.value= false;
-                      Get.back();
+                      await validation();
                     })
               ],
             ),
@@ -127,5 +137,90 @@ class AddToDo extends StatelessWidget {
         ),
       ),
     );
+  }
+
+  validation() async {
+    if (noteController.titleTextEditor.text == '' &&
+        noteController.noteTextEditor.text == '' &&
+        noteController.startDate == '' &&
+        noteController.startTime == '') {
+      Get.snackbar(
+        "Required fields are empty!",
+        "Please fill all the required fields.",
+        margin: EdgeInsets.all(10),
+        colorText: Colors.white,
+        icon: Icon(Icons.warning, color: Colors.white),
+        snackPosition: SnackPosition.BOTTOM,
+        backgroundColor: const Color(0xFF007BEC),
+      );
+    } else if (noteController.titleTextEditor.text == '') {
+      Get.snackbar(
+        "Required field is empty.",
+        "Please fill title ",
+        margin: EdgeInsets.all(10),
+        colorText: Colors.white,
+        icon: Icon(Icons.warning, color: Colors.white),
+        snackPosition: SnackPosition.BOTTOM,
+        backgroundColor: const Color(0xFF007BEC),
+      );
+    } else if (noteController.noteTextEditor.text == '') {
+      Get.snackbar(
+        "Required field is empty.",
+        "Please fill title ",
+        margin: EdgeInsets.all(10),
+        colorText: Colors.white,
+        icon: Icon(Icons.warning, color: Colors.white),
+        snackPosition: SnackPosition.BOTTOM,
+        backgroundColor: const Color(0xFF007BEC),
+      );
+    } else if (noteController.titleTextEditor.text == '' &&
+        noteController.noteTextEditor == '') {
+      Get.snackbar(
+        "Required fields are empty.",
+        "Please fill title and note ",
+        colorText: Colors.white,
+        margin: EdgeInsets.all(10),
+        icon: Icon(Icons.warning, color: Colors.white),
+        snackPosition: SnackPosition.BOTTOM,
+        backgroundColor: const Color(0xFF007BEC),
+      );
+    } else if (noteController.startDate == '' &&
+        noteController.startTime == '') {
+      Get.snackbar(
+        "Required fields are empty!",
+        "Please fill Start Date and and Start Time",
+        colorText: Colors.white,
+        margin: EdgeInsets.all(10),
+        icon: Icon(Icons.warning, color: Colors.white),
+        snackPosition: SnackPosition.BOTTOM,
+        backgroundColor: const Color(0xFF007BEC),
+      );
+    } else if (noteController.startDate == '') {
+      Get.snackbar(
+        "Required field is empty!",
+        "Please fill Start Date.",
+        colorText: Colors.white,
+        margin: EdgeInsets.all(10),
+        icon: Icon(Icons.warning, color: Colors.white),
+        snackPosition: SnackPosition.BOTTOM,
+        backgroundColor: const Color(0xFF007BEC),
+      );
+    } else if (noteController.startTime == '') {
+      Get.snackbar(
+        "Required fields is empty!",
+        "Please fill Start Time",
+        colorText: Colors.white,
+        margin: const EdgeInsets.all(10),
+        icon: const Icon(Icons.warning, color: Colors.white),
+        snackPosition: SnackPosition.BOTTOM,
+        backgroundColor: const Color(0xFF007BEC),
+      );
+    } else {
+      noteController.isLoading.value = true;
+      await noteController.saveNote(noteID);
+      await noteController.loadData();
+      noteController.clearData();
+      Get.back();
+    }
   }
 }

@@ -25,6 +25,7 @@ class HomePage extends StatelessWidget {
         // top: false,
         bottom: false,
         child: Scaffold(
+          backgroundColor: Colors.white,
           resizeToAvoidBottomInset: false,
           body: Padding(
             padding: const EdgeInsets.only(left: 20, right: 20),
@@ -36,53 +37,56 @@ class HomePage extends StatelessWidget {
                         height: 45,
                         width: 120,
                         navigation: () {
+                          noteController.clearData();
                           Get.to(
-                            () => AddToDo(
-                              noteID: '',
-                            ),
-                          );
+                              () => AddToDo(
+                                    noteID: '',
+                                  ),
+                              duration: Duration(milliseconds: 800),
+                              transition: Transition.rightToLeft);
                         },
                       ),
                     )
-                  : Column(
-                      children: [
-                        SizedBox(
-                          height: 10,
-                        ),
-                        Row(
-                          mainAxisAlignment: MainAxisAlignment.end,
-                          children: [
-                            CustomButton(
-                              text: "Add ToDo",
-                              height: 45,
-                              width: 120,
-                              navigation: () {
-                                Get.to(() => AddToDo(
-                                      noteID: '',
-                                    ));
-                              },
-                            ),
-                          ],
-                        ),
-                        const SizedBox(height: 10),
-                        noteController.isLoading.value
-                            ? SizedBox(
-                                height: 100,
-                                child: const Center(
-                                  child: SpinKitPouringHourGlass(
-                                      size: 25, color: Color(0xFF007BEC)),
-                                ),
-                              )
-                            : SizedBox(
-                                height: MediaQuery.of(context).size.height -
-                                    65 -
-                                    MediaQuery.of(context).padding.top,
-                                child: SingleChildScrollView(
-                                  physics:
-                                      const AlwaysScrollableScrollPhysics(),
+                  : SingleChildScrollView(
+                      physics: NeverScrollableScrollPhysics(),
+                      child: Column(
+                        children: [
+                          SizedBox(
+                            height: 10,
+                          ),
+                          Row(
+                            mainAxisAlignment: MainAxisAlignment.end,
+                            children: [
+                              CustomButton(
+                                text: "Add ToDo",
+                                height: 45,
+                                width: 120,
+                                navigation: () {
+                                  Get.to(
+                                      () => AddToDo(
+                                            noteID: '',
+                                          ),
+                                      duration: Duration(milliseconds: 800),
+                                      transition: Transition.rightToLeft);
+                                  noteController.clearData();
+                                },
+                              ),
+                            ],
+                          ),
+                          const SizedBox(height: 10),
+                          noteController.isLoading.value
+                              ? SizedBox(
+                                  height: 100,
+                                  child: const Center(
+                                    child: SpinKitPouringHourGlass(
+                                        size: 25, color: Color(0xFF007BEC)),
+                                  ),
+                                )
+                              : SingleChildScrollView(
+                                  //physics: AlwaysScrollableScrollPhysics(),
                                   child: ListView.builder(
-                                    physics:
-                                        const NeverScrollableScrollPhysics(),
+                                    // physics:
+                                    //     const AlwaysScrollableScrollPhysics(),
                                     shrinkWrap: true,
                                     itemCount: noteController.notes.length,
                                     itemBuilder: (context, index) {
@@ -96,9 +100,14 @@ class HomePage extends StatelessWidget {
                                               bottom: 10.0),
                                           child: InkWell(
                                             onTap: () {
-                                              Get.to(AddToDo(
-                                                  noteID: noteController
-                                                      .notes[index].id));
+                                              Get.to(
+                                                  AddToDo(
+                                                      noteID: noteController
+                                                          .notes[index].id),
+                                                  duration: Duration(
+                                                      milliseconds: 800),
+                                                  transition:
+                                                      Transition.rightToLeft);
                                             },
                                             child: NoteWidget(
                                               id: noteController
@@ -108,9 +117,12 @@ class HomePage extends StatelessWidget {
                                               notedTask: noteController
                                                   .notes[index].notedTask,
                                               startDate: noteController
-                                                  .notes[index].startDate, endDate: noteController
-                                                  .notes[index].endDate, startTime: noteController
-                                                  .notes[index].startTime, endTime: noteController
+                                                  .notes[index].startDate,
+                                              endDate: noteController
+                                                  .notes[index].endDate,
+                                              startTime: noteController
+                                                  .notes[index].startTime,
+                                              endTime: noteController
                                                   .notes[index].endTime,
                                               //note: noteController.id.value,
                                               //onPressed: (){showNote(noteController.note.value)}
@@ -121,8 +133,8 @@ class HomePage extends StatelessWidget {
                                     },
                                   ),
                                 ),
-                              ),
-                      ],
+                        ],
+                      ),
                     ),
             ),
           ),

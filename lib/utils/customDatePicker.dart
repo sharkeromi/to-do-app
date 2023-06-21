@@ -36,7 +36,9 @@ class CustomDatePicker extends StatelessWidget {
           width: (width - 60) / 2,
           decoration: BoxDecoration(
             border: Border.all(
-                color: Colors.grey, width: 1, style: BorderStyle.solid),
+                color: Colors.grey.shade400,
+                width: 1,
+                style: BorderStyle.solid),
             borderRadius: BorderRadius.circular(10),
             color: Colors.white,
           ),

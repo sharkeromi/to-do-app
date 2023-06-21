@@ -21,6 +21,8 @@ class NoteController extends GetxController {
 
   RxString id = "".obs;
   RxString startDate = "".obs;
+  RxInt titleWordCount = 0.obs;
+  RxInt noteWordCount = 0.obs;
   //Rx<DateTime> startDate = Rx<DateTime>(DateTime.now());
   //Rx<DateTime> endDate = Rx<DateTime>(DateTime.now());
   RxString endDate = "".obs;
@@ -58,7 +60,6 @@ class NoteController extends GetxController {
         endTime: endTime.value);
     if (noteID == '') {
       //await insert(note);
-
       await sp.setList(note);
     } else {
       updateExisitingNote(note);
@@ -73,7 +74,7 @@ class NoteController extends GetxController {
   }
 
   updateExisitingNote(note) async {
-    db.updateNote(note);
+    await sp.editNote(note);
     update();
   }
 
@@ -89,6 +90,9 @@ class NoteController extends GetxController {
     endDate.value = '';
     startTime.value = '';
     endTime.value = '';
+    titleWordCount= 0.obs;
+    noteWordCount = 0.obs;
+
     update();
   }
 }

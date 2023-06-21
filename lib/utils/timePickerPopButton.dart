@@ -1,8 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:to_do_app/controllers/noteController.dart';
 import 'package:to_do_app/controllers/timePickerSpinnerController.dart';
 
 Widget TimePickerButton(width, buttonText, startorEnd) {
+  NoteController noteController = Get.find();
   TimePickerSpinnerController timePickerSpinnerController =
       Get.put(TimePickerSpinnerController());
   return TextButton(
@@ -28,14 +30,19 @@ Widget TimePickerButton(width, buttonText, startorEnd) {
           ? Get.back()
           : startorEnd == "Start Time"
               ? timePickerSpinnerController.setStartHourMin()
-              : timePickerSpinnerController.setEndHourMin();
+              : timePickerSpinnerController.timeValidation();
     },
     child: SizedBox(
-      height: 60,
-      width: (width - 41) / 2,
+      height: 50,
+      width: (width - 71) / 2,
       child: Center(
         child: Text(buttonText,
-            style: const TextStyle(fontFamily: 'Euclid Regular', fontSize: 16)),
+            style: buttonText == "Cancel"
+                ? TextStyle(
+                    fontFamily: 'Euclid Regular',
+                    fontSize: 16,
+                    color: Colors.red)
+                : TextStyle(fontFamily: 'Euclid', fontSize: 16)),
       ),
     ),
   );
