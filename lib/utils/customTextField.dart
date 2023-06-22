@@ -16,9 +16,10 @@ class CustomTextField extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return TextField(
-      onChanged: (value){
+      onChanged: (value) {
         hintText == "Write a Task Title"
-            ?noteController.titleWordCount.value = value.length:noteController.noteWordCount.value = value.length;
+            ? noteController.titleWordCount.value = value.length
+            : noteController.noteWordCount.value = value.length;
       },
       inputFormatters: [
         hintText == "Write a Task Title"
@@ -32,7 +33,7 @@ class CustomTextField extends StatelessWidget {
       keyboardType: TextInputType.multiline,
       maxLines: hintText == "Write a Task Title" ? 1 : 7,
       decoration: InputDecoration(
-        contentPadding: EdgeInsets.fromLTRB(12, 6, 10, 12),
+        contentPadding: const EdgeInsets.fromLTRB(12, 6, 10, 12),
         hintText: hintText,
         hintStyle: const TextStyle(
             fontFamily: 'Euclid Regular', color: Colors.black54),

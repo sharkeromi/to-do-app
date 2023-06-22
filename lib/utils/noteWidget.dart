@@ -46,7 +46,7 @@ class NoteWidget extends StatelessWidget {
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           Text(
-            title,
+            "${id}  ${title}",
             style: const TextStyle(fontFamily: 'Euclid', fontSize: 20),
           ),
           SizedBox(

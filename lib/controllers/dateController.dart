@@ -13,7 +13,7 @@ class DateController extends GetxController {
   Rx<TimeOfDay?> selectedStartTime = Rx<TimeOfDay?>(null);
 
   //RxString startDate = "".obs;
-  RxString endDate = "".obs;
+  //RxString endDate = "".obs;
   //time is store temporarily from popup in here
   RxString startTime = "".obs;
   RxString endTime = "".obs;
@@ -79,18 +79,4 @@ class DateController extends GetxController {
     }
     update();
   }
-
-  // void testTimeChecker(context) async {
-  //   TimeOfDay? pickTime = await showTimePicker(
-  //       context: context,
-  //       initialTime: selectedStartDate.value.isBefore(DateTime.now())
-  //           ? TimeOfDay.now()
-  //           : selectedStartTime.value ?? const TimeOfDay(hour: 12, minute: 00));
-  //   if (pickTime != null) {
-  //     selectedStartTime.value = pickTime;
-  //     startTime.value =
-  //         '${pickTime.hour.toString()}:${pickTime.minute.toString()}';
-  //   }
-  //   update();
-  // }
 }

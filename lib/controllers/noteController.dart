@@ -1,3 +1,5 @@
+import 'dart:convert';
+
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:to_do_app/controllers/sp_class.dart';
@@ -5,16 +7,12 @@ import 'package:to_do_app/model/noteModel.dart';
 import 'package:to_do_app/utils/sharedPref.dart';
 
 class NoteController extends GetxController {
-  //SplashScreenController splashScreenController = Get.find();
   final SP sp = SP();
   RxBool isLoading = RxBool(false);
   RxBool initialDataExistence = RxBool(false);
-  //var uniqueID = UniqueKey().hashCode;
   Note noteModel = Note();
   DB db = Get.put(DB());
-  //final Note? note;
   RxList<Note> notes = RxList([]);
-  //RxInt note=0.obs;
 
   TextEditingController titleTextEditor = TextEditingController();
   TextEditingController noteTextEditor = TextEditingController();
@@ -37,7 +35,7 @@ class NoteController extends GetxController {
     //await Future.delayed(Duration(seconds: 2), () {});
     SP sp = SP();
     var source = await sp.getList();
-    print('load' + source.toString());
+    // print('load' + source.toString());
     isLoading.value = false;
   }
 
@@ -47,9 +45,8 @@ class NoteController extends GetxController {
   }
 
   saveNote(noteID) async {
-    // print(noteID);
+    print(noteID);
     isLoading.value = true;
-    // print(noteModel.id);
     final note = Note(
         id: noteID,
         title: titleTextEditor.text.trim(),
@@ -62,7 +59,9 @@ class NoteController extends GetxController {
       //await insert(note);
       await sp.setList(note);
     } else {
-      updateExisitingNote(note);
+      //print(note.id);
+      sp.editNote(note);
+      //updateExisitingNote(note);
     }
     update();
   }
@@ -74,6 +73,7 @@ class NoteController extends GetxController {
   }
 
   updateExisitingNote(note) async {
+    // print(note.id);
     await sp.editNote(note);
     update();
   }
@@ -83,16 +83,41 @@ class NoteController extends GetxController {
     update();
   }
 
-   void clearData() {
+  void clearData() {
     titleTextEditor.clear();
     noteTextEditor.clear();
     startDate.value = '';
     endDate.value = '';
     startTime.value = '';
     endTime.value = '';
-    titleWordCount= 0.obs;
+    titleWordCount = 0.obs;
     noteWordCount = 0.obs;
 
     update();
+  }
+
+  // findNoteID(noteID, Note note) async{
+  //   var oldList = await sp.getList();
+  //   int ind = oldList.indexWhere((e) => e.id == noteID);
+  //   return oldList[]
+  // }
+
+  editNoteChecker(id, title, text, s_Date, e_Date, s_Time, e_Time) {
+    if (id == "") {
+      titleTextEditor.text = '';
+      noteTextEditor.text = '';
+      startDate.value = '';
+      endDate.value = '';
+      startTime.value = '';
+
+      endTime.value = '';
+    } else {
+      titleTextEditor.text = title ?? '';
+      noteTextEditor.text = text ?? '';
+      startDate.value = s_Date ?? '';
+      endDate.value = e_Date ?? '';
+      startTime.value = s_Time ?? '';
+      endTime.value = e_Time ?? '';
+    }
   }
 }

@@ -8,14 +8,14 @@ class SplashScreenController extends GetxController {
 
   @override
   void onInit() async {
-    // await sp.remove();
+    //await sp.remove();
     await sp.getList();
     await navigateToHome();
     super.onInit();
   }
 
   navigateToHome() async {
-    await Future.delayed(const Duration(seconds: 3), () {});
+    await Future.delayed(const Duration(seconds: 5), () {});
     NoteController noteController = Get.find<NoteController>();
     noteController.isLoading.value = false;
     Get.offAll(() => HomePage());

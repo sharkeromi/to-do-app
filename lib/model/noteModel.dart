@@ -8,7 +8,7 @@ class Note {
   String? endTime;
 
   Note({
-    String? id,
+    this.id,
     this.title,
     this.notedTask,
     this.startDate,

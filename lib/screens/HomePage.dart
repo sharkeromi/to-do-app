@@ -32,109 +32,116 @@ class HomePage extends StatelessWidget {
             child: Obx(
               () => noteController.initialDataExistence.value
                   ? Center(
-                      child: CustomButton(
-                        text: "Add ToDo",
-                        height: 45,
-                        width: 120,
-                        navigation: () {
-                          noteController.clearData();
-                          Get.to(
-                              () => AddToDo(
-                                    noteID: '',
-                                  ),
-                              duration: Duration(milliseconds: 800),
-                              transition: Transition.rightToLeft);
-                        },
-                      ),
-                    )
-                  : SingleChildScrollView(
-                      physics: NeverScrollableScrollPhysics(),
                       child: Column(
                         children: [
-                          SizedBox(
-                            height: 10,
+                          Image.asset("assets/homePage.gif"),
+                          const SizedBox(
+                            height: 20,
                           ),
-                          Row(
-                            mainAxisAlignment: MainAxisAlignment.end,
-                            children: [
-                              CustomButton(
-                                text: "Add ToDo",
-                                height: 45,
-                                width: 120,
-                                navigation: () {
-                                  Get.to(
-                                      () => AddToDo(
-                                            noteID: '',
-                                          ),
-                                      duration: Duration(milliseconds: 800),
-                                      transition: Transition.rightToLeft);
-                                  noteController.clearData();
-                                },
-                              ),
-                            ],
+                          CustomButton(
+                            text: "Add ToDo",
+                            height: 45,
+                            width: 120,
+                            navigation: () {
+                              noteController.clearData();
+                              Get.to(() => AddToDo(noteID: ''),
+                                  duration: const Duration(milliseconds: 800),
+                                  transition: Transition.rightToLeft);
+                            },
                           ),
-                          const SizedBox(height: 10),
-                          noteController.isLoading.value
-                              ? SizedBox(
-                                  height: 100,
-                                  child: const Center(
-                                    child: SpinKitPouringHourGlass(
-                                        size: 25, color: Color(0xFF007BEC)),
-                                  ),
-                                )
-                              : SingleChildScrollView(
-                                  //physics: AlwaysScrollableScrollPhysics(),
-                                  child: ListView.builder(
-                                    // physics:
-                                    //     const AlwaysScrollableScrollPhysics(),
-                                    shrinkWrap: true,
-                                    itemCount: noteController.notes.length,
-                                    itemBuilder: (context, index) {
-                                      // db.future;
-                                      // print(noteController.notes.value.length);
-
-                                      //var note = noteController.notes[index];
-                                      return Obx(
-                                        () => Padding(
-                                          padding: const EdgeInsets.only(
-                                              bottom: 10.0),
-                                          child: InkWell(
-                                            onTap: () {
-                                              Get.to(
-                                                  AddToDo(
-                                                      noteID: noteController
-                                                          .notes[index].id),
-                                                  duration: Duration(
-                                                      milliseconds: 800),
-                                                  transition:
-                                                      Transition.rightToLeft);
-                                            },
-                                            child: NoteWidget(
-                                              id: noteController
-                                                  .notes[index].id,
-                                              title: noteController
-                                                  .notes[index].title,
-                                              notedTask: noteController
-                                                  .notes[index].notedTask,
-                                              startDate: noteController
-                                                  .notes[index].startDate,
-                                              endDate: noteController
-                                                  .notes[index].endDate,
-                                              startTime: noteController
-                                                  .notes[index].startTime,
-                                              endTime: noteController
-                                                  .notes[index].endTime,
-                                              //note: noteController.id.value,
-                                              //onPressed: (){showNote(noteController.note.value)}
-                                            ),
-                                          ),
-                                        ),
-                                      );
-                                    },
-                                  ),
-                                ),
                         ],
                       ),
+                    )
+                  : Column(
+                      children: [
+                        const SizedBox(
+                          height: 10,
+                        ),
+                        Row(
+                          mainAxisAlignment: MainAxisAlignment.end,
+                          children: [
+                            CustomButton(
+                              text: "Add ToDo",
+                              height: 45,
+                              width: 120,
+                              navigation: () {
+                                Get.to(
+                                    () => AddToDo(
+                                          noteID: '',
+                                        ),
+                                    duration: const Duration(milliseconds: 800),
+                                    transition: Transition.rightToLeft);
+                                noteController.clearData();
+                              },
+                            ),
+                          ],
+                        ),
+                        const SizedBox(height: 10),
+                        noteController.isLoading.value
+                            ? const SizedBox(
+                                height: 100,
+                                child: Center(
+                                  child: SpinKitPouringHourGlass(
+                                    size: 25,
+                                    color: Color(0xFF007BEC),
+                                  ),
+                                ),
+                              )
+                            : ListView.builder(
+                                // physics: const AlwaysScrollableScrollPhysics(),
+                                shrinkWrap: true,
+                                itemCount: noteController.notes.length,
+                                itemBuilder: (context, index) {
+                                  return Obx(
+                                    () => Padding(
+                                      padding:
+                                          const EdgeInsets.only(bottom: 10.0),
+                                      child: InkWell(
+                                        onTap: () {
+                                          noteController.editNoteChecker(
+                                              noteController.notes[index].id,
+                                              noteController.notes[index].title,
+                                              noteController
+                                                  .notes[index].notedTask,
+                                              noteController
+                                                  .notes[index].startDate,
+                                              noteController
+                                                  .notes[index].endDate,
+                                              noteController
+                                                  .notes[index].startTime,
+                                              noteController
+                                                  .notes[index].endTime);
+                                          Get.to(
+                                              () => AddToDo(
+                                                    noteID: noteController
+                                                        .notes[index].id,
+                                                  ),
+                                              duration: const Duration(
+                                                  milliseconds: 800),
+                                              transition:
+                                                  Transition.rightToLeft);
+                                        },
+                                        child: NoteWidget(
+                                          id: noteController.notes[index].id,
+                                          title:
+                                              noteController.notes[index].title,
+                                          notedTask: noteController
+                                              .notes[index].notedTask,
+                                          startDate: noteController
+                                              .notes[index].startDate,
+                                          endDate: noteController
+                                              .notes[index].endDate,
+                                          startTime: noteController
+                                              .notes[index].startTime,
+                                          endTime: noteController
+                                              .notes[index].endTime,
+                                        ),
+                                      ),
+                                    ),
+                                  );
+                                },
+                              ),
+                      ],
                     ),
             ),
           ),

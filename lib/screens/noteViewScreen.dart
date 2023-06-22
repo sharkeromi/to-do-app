@@ -6,15 +6,23 @@ import 'package:to_do_app/utils/customDatePicker.dart';
 import 'package:to_do_app/utils/customTextField.dart';
 import 'package:to_do_app/utils/customTimePicker.dart';
 
-class AddToDo extends StatelessWidget {
-  var noteID;
+class NoteViewScreen extends StatelessWidget {
+  
+  var noteID; 
+  var noteEndDate;  
+  var noteEndTime; 
+  var noteStartDate; 
+  var noteStartTime;
+  var noteText; 
+  var noteTitle;
 
-  AddToDo({
-    Key? key,
-    required this.noteID,
-  }) : super(key: key);
+  NoteViewScreen({Key? key, required this.noteID, required this.noteTitle,required this.noteText,required this.noteStartDate,required this.noteEndDate,required this.noteStartTime,required this.noteEndTime}) : super(key: key);
   //NoteController noteController = Get.put(NoteController());
   NoteController noteController = Get.find<NoteController>();
+
+  TextEditingController title = TextEditingController();
+
+  
 
   @override
   Widget build(BuildContext context) {
@@ -125,7 +133,7 @@ class AddToDo extends StatelessWidget {
                 ),
                 const SizedBox(height: 40),
                 CustomButton(
-                    text: noteID == '' ? "Add" : "Save",
+                    text: "Add",
                     height: 45,
                     width: 150,
                     navigation: () async {
@@ -218,14 +226,9 @@ class AddToDo extends StatelessWidget {
     } else {
       noteController.isLoading.value = true;
       await noteController.saveNote(noteID);
-      //print(noteID);
       await noteController.loadData();
       noteController.clearData();
       Get.back();
     }
   }
-
-  // updateNote()async{
-  //   await noteController.
-  // }
 }
