@@ -8,7 +8,6 @@ class SplashScreenController extends GetxController {
 
   @override
   void onInit() async {
-    //await sp.remove();
     await sp.getList();
     await navigateToHome();
     super.onInit();

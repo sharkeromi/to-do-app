@@ -3,45 +3,47 @@ class Note {
   String? title;
   String? notedTask;
   String? startDate;
+  String? tempStartDate;
   String? endDate;
+  String? tempEndDate;
   String? startTime;
+  int? tempStartHour;
+  int? tempStartMin; 
   String? endTime;
+  int? tempEndHour;
+  int? tempEndMin;
 
   Note({
     this.id,
     this.title,
     this.notedTask,
     this.startDate,
+    this.tempStartDate,
     this.endDate,
+    this.tempEndDate,
     this.endTime,
+    this.tempStartHour,
+    this.tempStartMin,
     this.startTime,
-  }) {
-    //_id = id ?? generateId;
-  }
+    this.tempEndHour,
+    this.tempEndMin
+  });
 
   factory Note.ofJson(Map<String, dynamic> map) {
-    // if (map.isEmpty) {
-    //   print(2);
-    //   return Note(
-    //     id: '',
-    //     title: '',
-    //     notedTask: '',
-    //     startDate: DateTime.now(),
-    //     endDate: DateTime.now(),
-    //     startTime: '',
-    //     endTime: '',
-    //   );
-    // }
-    // print(2);
-
     return Note(
       id: map['id'] ?? '',
       title: map['title'] ?? '',
       notedTask: map['notedTask'] ?? '',
       startDate: map['startDate'] ?? '',
+      tempStartDate: map['tempStartDate'] ?? '',
       endDate: map['endDate'] ?? '',
+      tempEndDate: map['tempEndDate'] ?? '',
       startTime: map['startTime'] ?? '',
+      tempStartHour: map['tempStartHour'] ?? 0,
+      tempStartMin: map['tempStartMin'] ?? 0,
       endTime: map['endTime'] ?? '',
+      tempEndHour: map['tempEndHour'] ?? 0,
+      tempEndMin: map['tempEndMin'] ?? 0
     );
   }
 
@@ -50,12 +52,14 @@ class Note {
         'title': title,
         'notedTask': notedTask,
         'startDate': startDate,
+        'tempStartDate': tempStartDate,
         'endDate': endDate,
+        'tempEndDate' : tempEndDate,
         'startTime': startTime,
+        'tempStartHour': tempStartHour,
+        'tempStartMin': tempStartMin,
         'endTime': endTime,
+        'tempEndHour': tempEndHour,
+        'tempEndMin' : tempEndMin
       };
-
-  // String get id => _id ?? generateId;
-
-  // String get generateId => DateTime.now().microsecondsSinceEpoch.toString();
 }

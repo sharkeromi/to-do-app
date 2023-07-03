@@ -5,11 +5,14 @@ import 'package:to_do_app/controllers/noteController.dart';
 
 class CustomDatePicker extends StatelessWidget {
   var boxTextString;
-
   var datePicker;
+  var tempDate;
 
   CustomDatePicker(
-      {super.key, required this.boxTextString, required this.datePicker});
+      {super.key,
+      required this.boxTextString,
+      required this.tempDate,
+      required this.datePicker});
   DateController dateController = Get.put(DateController());
   NoteController noteController = Get.find();
 

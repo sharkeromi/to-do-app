@@ -4,8 +4,6 @@ import 'package:to_do_app/controllers/getxDependency.dart';
 import 'package:to_do_app/screens/splashScreen.dart';
 
 void main() {
-  //SharedPreferences.setMockInitialValues({});
-  //InitialBinding().dependencies();
   WidgetsFlutterBinding.ensureInitialized();
   runApp(const MyApp());
 }
@@ -16,6 +14,7 @@ class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return GetMaterialApp(
+      defaultTransition: Transition.noTransition,
       debugShowCheckedModeBanner: false,
       title: 'Flutter Demo',
       theme: ThemeData(

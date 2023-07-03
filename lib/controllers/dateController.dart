@@ -12,20 +12,24 @@ class DateController extends GetxController {
   Rx<TimeOfDay?> selectedEndTime = Rx<TimeOfDay?>(null);
   Rx<TimeOfDay?> selectedStartTime = Rx<TimeOfDay?>(null);
 
-  //RxString startDate = "".obs;
-  //RxString endDate = "".obs;
   //time is store temporarily from popup in here
   RxString startTime = "".obs;
   RxString endTime = "".obs;
 
   void starDateChecker(context) async {
+    // DateTime temp = DateTime.parse(noteController.startDate.value);
+
     DateTime? pickStartDate = await showDatePicker(
         context: context,
-        initialDate: selectedStartDate.value,
-        firstDate: firstDateforEndDate.value ?? DateTime.now(),
+        initialDate: noteController.startDate.value == ""
+            ? selectedStartDate.value
+            : noteController.tempStartDate.value,
+        firstDate: DateTime.now(),
+        //firstDateforEndDate.value ?? DateTime.now(),
         lastDate: DateTime(2101));
     if (pickStartDate != null) {
       selectedStartDate.value = pickStartDate;
+      noteController.tempStartDate.value = pickStartDate;
       noteController.startDate.value =
           formatDate(pickStartDate, [dd, ".", " ", MM, " ", yyyy]);
       if (pickStartDate.isAfter(selectedEndDate.value)) {
@@ -39,43 +43,17 @@ class DateController extends GetxController {
     DateTime? pickStartDate = await showDatePicker(
         context: context,
         initialDate: selectedEndDate.value.isAfter(selectedStartDate.value)
-            ? selectedEndDate.value
+            ? (noteController.endDate.value == ""
+                ? selectedEndDate.value
+                : noteController.tempEndDate.value)
             : selectedStartDate.value,
         firstDate: selectedStartDate.value,
         lastDate: DateTime(2101));
     if (pickStartDate != null) {
       selectedEndDate.value = pickStartDate;
+      noteController.tempEndDate.value = pickStartDate;
       noteController.endDate.value =
           formatDate(pickStartDate, [dd, ".", " ", MM, " ", yyyy]);
-    }
-    update();
-  }
-
-  void startTimeChecker(context) async {
-    TimeOfDay? pickTime = await showTimePicker(
-        context: context,
-        initialTime: selectedStartDate.value.isBefore(DateTime.now())
-            ? TimeOfDay.now()
-            : selectedStartTime.value ?? const TimeOfDay(hour: 12, minute: 00));
-    if (pickTime != null) {
-      selectedStartTime.value = pickTime;
-      startTime.value =
-          '${pickTime.hour.toString()}:${pickTime.minute.toString()}';
-    }
-    update();
-  }
-
-  void endTimeChecker(context) async {
-    TimeOfDay? pickTime = await showTimePicker(
-        context: context,
-        initialTime: selectedStartDate.value.isBefore(DateTime.now())
-            ? selectedStartTime.value ?? TimeOfDay.now()
-            : selectedEndTime.value ?? const TimeOfDay(hour: 12, minute: 00));
-    if (pickTime != null) {
-      selectedEndTime.value = pickTime;
-      endTime.value =
-          '${pickTime.hour.toString()}:${pickTime.minute.toString()}';
-      // addDateTime(endTime);
     }
     update();
   }

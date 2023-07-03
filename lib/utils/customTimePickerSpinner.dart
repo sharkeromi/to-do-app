@@ -38,21 +38,40 @@ class CustomSpinnerTimePickerPopUP {
                           minValue: 0,
                           maxValue: 23,
                           value: boxText == "Start Time"
-                              ? (noteController.startDate.value ==
-                                      formatDate(DateTime.now(),
-                                          [dd, ".", " ", MM, " ", yyyy])
-                                  ? timePickerSpinnerController.presentHour
-                                  : timePickerSpinnerController.hour.value)
-                              : timePickerSpinnerController.endHour.value,
+                              ? timePickerSpinnerController.displayStartHour()
+                              : noteController.tempEndHour.value,
                           zeroPad: true,
                           infiniteLoop: true,
                           itemWidth: 80,
                           itemHeight: 45,
                           onChanged: (value) {
-                            boxText == "Start Time"
-                                ? timePickerSpinnerController.hour.value = value
-                                : timePickerSpinnerController.endHour.value =
+                            print(value);
+                            if (boxText == "Start Time") {
+                              if (noteController.startDate.value ==
+                                  formatDate(DateTime.now(),
+                                      [dd, ".", " ", MM, " ", yyyy])) {
+                                timePickerSpinnerController.presentHour.value =
                                     value;
+                                print("1 " +
+                                    noteController.tempStartHour.value
+                                        .toString());
+                                noteController.tempStartHour.value = value;
+                                print("1.1 " +
+                                    noteController.tempStartHour.value
+                                        .toString());
+                                return;
+                              } else {
+                                print("2 " +
+                                    noteController.tempStartHour.value
+                                        .toString());
+                                noteController.tempStartHour.value = value;
+                                print("2.2 " +
+                                    noteController.tempStartHour.value
+                                        .toString());
+                              }
+                            } else {
+                              noteController.tempEndHour.value = value;
+                            }
                           },
                           textStyle:
                               const TextStyle(color: Colors.grey, fontSize: 20),
@@ -71,24 +90,37 @@ class CustomSpinnerTimePickerPopUP {
                         ),
                         NumberPicker(
                           minValue: 0,
-                          step: 15,
+                          step: 1,
                           maxValue: 59,
                           value: boxText == "Start Time"
-                              ? (noteController.startDate.value ==
-                                      formatDate(DateTime.now(),
-                                          [dd, ".", " ", MM, " ", yyyy])
-                                  ? timePickerSpinnerController.presentMin
-                                  : timePickerSpinnerController.min.value)
-                              : timePickerSpinnerController.endMin.value,
+                              ? timePickerSpinnerController.displayStarMin()
+                              : noteController.tempEndMin.value,
                           zeroPad: true,
                           infiniteLoop: true,
                           itemWidth: 80,
                           itemHeight: 45,
                           onChanged: (value) {
-                            boxText == "Start Time"
-                                ? timePickerSpinnerController.min.value = value
-                                : timePickerSpinnerController.endMin.value =
+                            if (boxText == "Start Time") {
+                              if (noteController.startDate.value ==
+                                  formatDate(DateTime.now(),
+                                      [dd, ".", " ", MM, " ", yyyy])) {
+                                timePickerSpinnerController.presentMin.value =
                                     value;
+                                noteController.tempStartMin.value = value;
+                                return;
+                              } else {
+                                noteController.tempStartMin.value = value;
+                              }
+                            } else {
+                              noteController.tempEndMin.value = value;
+                            }
+                            // boxText == "Start Time"
+                            //     ? (noteController.startDate.value ==
+                            //             formatDate(DateTime.now(),
+                            //                 [dd, ".", " ", MM, " ", yyyy])
+                            //         ? noteController.tempStartMin.value = value
+                            //         : noteController.tempStartMin.value = value)
+                            //     : noteController.tempEndMin.value = value;
                           },
                           textStyle:
                               const TextStyle(color: Colors.grey, fontSize: 20),

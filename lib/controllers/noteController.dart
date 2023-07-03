@@ -1,85 +1,74 @@
-import 'dart:convert';
-
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:to_do_app/controllers/sp_class.dart';
 import 'package:to_do_app/model/noteModel.dart';
-import 'package:to_do_app/utils/sharedPref.dart';
 
 class NoteController extends GetxController {
   final SP sp = SP();
   RxBool isLoading = RxBool(false);
   RxBool initialDataExistence = RxBool(false);
   Note noteModel = Note();
-  DB db = Get.put(DB());
   RxList<Note> notes = RxList([]);
 
   TextEditingController titleTextEditor = TextEditingController();
   TextEditingController noteTextEditor = TextEditingController();
 
+  Rx<DateTime> selectedStartDate = Rx<DateTime>(DateTime.now());
+
   RxString id = "".obs;
   RxString startDate = "".obs;
+  Rx<DateTime> tempStartDate = Rx<DateTime>(DateTime.now());
+  Rx<DateTime> tempEndDate = Rx<DateTime>(DateTime.now());
+
+  RxInt tempStartHour = 0.obs;
+  RxInt tempStartMin = 0.obs;
+  RxInt tempEndHour = 0.obs;
+  RxInt tempEndMin = 0.obs;
   RxInt titleWordCount = 0.obs;
   RxInt noteWordCount = 0.obs;
-  //Rx<DateTime> startDate = Rx<DateTime>(DateTime.now());
-  //Rx<DateTime> endDate = Rx<DateTime>(DateTime.now());
   RxString endDate = "".obs;
   RxString startTime = "".obs;
   RxString endTime = "".obs;
 
-  // showNote(Note note)async {
-  //   Get.to(()=>NoteView(note: note));
-  // }
-
   loadData() async {
-    //await Future.delayed(Duration(seconds: 2), () {});
     SP sp = SP();
     var source = await sp.getList();
-    // print('load' + source.toString());
     isLoading.value = false;
   }
 
-  deleteNote(Note note) async {
-    await db.delete(note);
-    update();
-  }
-
   saveNote(noteID) async {
-    print(noteID);
+    //print(noteID);
     isLoading.value = true;
     final note = Note(
         id: noteID,
         title: titleTextEditor.text.trim(),
         notedTask: noteTextEditor.text.trim(),
         startDate: startDate.value,
+        tempStartDate: tempStartDate.value.toString(),
         endDate: endDate.value,
+        tempEndDate: tempEndDate.value.toString(),
         startTime: startTime.value,
+        tempStartHour: tempStartHour.value,
+        tempStartMin: tempStartMin.value,
+        tempEndHour: tempEndHour.value,
+        tempEndMin: tempEndMin.value,
         endTime: endTime.value);
     if (noteID == '') {
-      //await insert(note);
+      print("entering setlist");
       await sp.setList(note);
     } else {
-      //print(note.id);
-      sp.editNote(note);
-      //updateExisitingNote(note);
+      await sp.editNote(note);
     }
     update();
   }
 
-  insert(Note note) async {
-    // print(noteModel.title);
-    await db.insert(note);
-    update();
-  }
-
   updateExisitingNote(note) async {
-    // print(note.id);
     await sp.editNote(note);
     update();
   }
 
   delete(note) async {
-    db.delete(note);
+    await sp.deleteNote(note);
     update();
   }
 
@@ -87,37 +76,47 @@ class NoteController extends GetxController {
     titleTextEditor.clear();
     noteTextEditor.clear();
     startDate.value = '';
+    tempStartDate.value = DateTime.now();
     endDate.value = '';
+    tempEndDate.value = DateTime.now();
     startTime.value = '';
     endTime.value = '';
     titleWordCount = 0.obs;
     noteWordCount = 0.obs;
-
     update();
   }
 
-  // findNoteID(noteID, Note note) async{
-  //   var oldList = await sp.getList();
-  //   int ind = oldList.indexWhere((e) => e.id == noteID);
-  //   return oldList[]
-  // }
-
-  editNoteChecker(id, title, text, s_Date, e_Date, s_Time, e_Time) {
+  editNoteChecker(id, title, text, s_Date, ts_Date, e_Date, te_Date, s_Time,
+      e_Time, ts_Hour, ts_min, te_Hour, te_Min) {
     if (id == "") {
       titleTextEditor.text = '';
       noteTextEditor.text = '';
       startDate.value = '';
+      tempStartDate.value = DateTime.now();
       endDate.value = '';
+      tempEndDate.value = DateTime.now();
       startTime.value = '';
-
+      tempStartHour.value = 0;
+      tempEndHour.value = 0;
+      tempStartMin.value = 0;
+      tempEndMin.value = 0;
       endTime.value = '';
     } else {
+      DateTime tempSD = DateTime.parse(ts_Date);
+      DateTime tempED = DateTime.parse(te_Date);
       titleTextEditor.text = title ?? '';
       noteTextEditor.text = text ?? '';
+      noteWordCount.value = noteTextEditor.text.length;
       startDate.value = s_Date ?? '';
+      tempStartDate.value = tempSD;
       endDate.value = e_Date ?? '';
+      tempEndDate.value = tempED;
       startTime.value = s_Time ?? '';
+      tempStartHour.value = ts_Hour ?? 0;
+      tempStartMin.value = ts_min ?? 0;
       endTime.value = e_Time ?? '';
+      tempEndHour.value = te_Hour ?? 0;
+      tempEndMin.value = te_Min ?? 0;
     }
   }
 }

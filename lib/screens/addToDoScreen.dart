@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:to_do_app/controllers/noteController.dart';
+import 'package:to_do_app/controllers/sp_class.dart';
 import 'package:to_do_app/utils/customButton.dart';
 import 'package:to_do_app/utils/customDatePicker.dart';
 import 'package:to_do_app/utils/customTextField.dart';
@@ -23,115 +24,130 @@ class AddToDo extends StatelessWidget {
     return SafeArea(
       top: false,
       // bottom: false,
-      child: Scaffold(
-        backgroundColor: Colors.white,
-        appBar: AppBar(
-          centerTitle: true,
+      child: GestureDetector(
+        onTap: () => FocusScope.of(context).unfocus(),
+        child: Scaffold(
           backgroundColor: Colors.white,
-          elevation: 0,
-          title: const Text(
-            "Add ToDo",
-            style: TextStyle(
-                fontSize: 23,
-                fontFamily: 'Euclid Regular',
-                fontWeight: FontWeight.bold),
+          appBar: AppBar(
+            centerTitle: true,
+            backgroundColor: Colors.white,
+            elevation: 0,
+            title: noteID == ""
+                ? Text(
+                    "Add ToDo",
+                    style: TextStyle(
+                        fontSize: 23,
+                        fontFamily: 'Euclid Regular',
+                        fontWeight: FontWeight.bold),
+                  )
+                : Text(
+                    "Edit ToDo",
+                    style: TextStyle(
+                        fontSize: 23,
+                        fontFamily: 'Euclid Regular',
+                        fontWeight: FontWeight.bold),
+                  ),
           ),
-        ),
-        body: SingleChildScrollView(
-          child: Padding(
-            padding: const EdgeInsets.fromLTRB(20, 10, 20, 10),
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.center,
-              children: [
-                Container(
-                  height: 1,
-                  // width: width - 16,
-                  color: Colors.grey.shade400,
-                ),
-                const SizedBox(height: 25),
-                Container(
-                  height: 45,
-                  width: width,
-                  decoration: BoxDecoration(
-                    border: Border.all(
-                        color: Colors.grey.shade400,
-                        width: 1,
-                        style: BorderStyle.solid),
-                    borderRadius: BorderRadius.circular(10),
-                    color: Colors.white,
+          body: SingleChildScrollView(
+            child: Padding(
+              padding: const EdgeInsets.fromLTRB(20, 10, 20, 10),
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.center,
+                children: [
+                  Container(
+                    height: 1,
+                    // width: width - 16,
+                    color: Colors.grey.shade400,
                   ),
-                  // Task Title Here
-                  child: CustomTextField(
-                    hintText: 'Write a Task Title',
-                    controller: noteController.titleTextEditor,
-                  ),
-                  // HERE
-                ),
-                const SizedBox(
-                  height: 25,
-                ),
-                Container(
-                  height: 150,
-                  width: width,
-                  decoration: BoxDecoration(
-                    border: Border.all(
-                        color: Colors.grey.shade400,
-                        width: 1,
-                        style: BorderStyle.solid),
-                    borderRadius: BorderRadius.circular(10),
-                    color: Colors.white,
-                  ),
-                  // Task Note Here
-                  child: CustomTextField(
-                    hintText: 'Write a Task Note',
-                    controller: noteController.noteTextEditor,
-                  ),
-                  // HERE
-                ),
-                Obx(
-                  () => Container(
-                    alignment: Alignment.centerRight,
-                    height: 25,
-                    width: width - 60,
-                    child: Text('${noteController.noteWordCount}/256'),
-                  ),
-                ),
-                Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                  children: [
-                    CustomDatePicker(
-                      boxTextString: "Start Date",
-                      datePicker: noteController.startDate,
+                  const SizedBox(height: 25),
+                  Container(
+                    height: 60,
+                    width: width,
+
+                    // Task Title Here
+                    child: CustomTextField(
+                      onChanged: (value) {
+                        noteController.titleWordCount.value = value.length;
+                      },
+                      hintText: 'Write a Task Title',
+                      controller: noteController.titleTextEditor,
+                      counterText: null,
+                      maxLines: 1,
+                      maxLength: null,
                     ),
-                    CustomTimePicker(
-                      boxTextString: "Start Time",
-                      timePicker: noteController.startTime,
-                    )
-                  ],
-                ),
-                const SizedBox(height: 25),
-                Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                  children: [
-                    CustomDatePicker(
-                      boxTextString: "End Date",
-                      datePicker: noteController.endDate,
-                    ),
-                    CustomTimePicker(
-                      boxTextString: "End Time",
-                      timePicker: noteController.endTime,
-                    )
-                  ],
-                ),
-                const SizedBox(height: 40),
-                CustomButton(
-                    text: noteID == '' ? "Add" : "Save",
+                    // HERE
+                  ),
+                  const SizedBox(height: 10),
+                  Container(
+                    height: 150,
+                    width: width,
+
+                    // Task Note Here
+                    child: Obx(() => CustomTextField(
+                          onChanged: (value) {
+                            print(value);
+
+                            noteController.noteWordCount.value = value.length;
+                            print(noteController.noteWordCount.value);
+                          },
+                          counterText:
+                              '${noteController.noteWordCount.value.toString()}/256',
+                          hintText: 'Write a Task Note',
+                          controller: noteController.noteTextEditor,
+                          maxLines: 7,
+                          maxLength: 256,
+                        )),
+                    // HERE
+                  ),
+                  const SizedBox(height: 10),
+                  // Obx(
+                  //   () => Container(
+                  //     alignment: Alignment.centerRight,
+                  //     height: 25,
+                  //     width: width - 60,
+                  //     child: Text('${noteController.noteWordCount}/256'),
+                  //   ),
+                  // ),
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    children: [
+                      CustomDatePicker(
+                        boxTextString: "Start Date",
+                        tempDate: noteController.tempStartDate.value,
+                        datePicker: noteController.startDate,
+                      ),
+                      CustomTimePicker(
+                        boxTextString: "Start Time",
+                        timePicker: noteController.startTime,
+                      )
+                    ],
+                  ),
+                  const SizedBox(height: 25),
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    children: [
+                      CustomDatePicker(
+                        boxTextString: "End Date",
+                        tempDate: noteController.tempEndDate.value,
+                        datePicker: noteController.endDate,
+                      ),
+                      CustomTimePicker(
+                        boxTextString: "End Time",
+                        timePicker: noteController.endTime,
+                      )
+                    ],
+                  ),
+                  const SizedBox(height: 40),
+                  CustomButton(
+                    text: noteID == '' ? "Add" : "Update",
                     height: 45,
                     width: 150,
                     navigation: () async {
                       await validation();
-                    })
-              ],
+                    },
+                  ),
+                ],
+              ),
             ),
           ),
         ),
@@ -140,8 +156,8 @@ class AddToDo extends StatelessWidget {
   }
 
   validation() async {
-    if (noteController.titleTextEditor.text == '' &&
-        noteController.noteTextEditor.text == '' &&
+    if (noteController.titleTextEditor.text.trim() == '' &&
+        noteController.noteTextEditor.text.trim() == '' &&
         noteController.startDate == '' &&
         noteController.startTime == '') {
       Get.snackbar(
@@ -153,7 +169,7 @@ class AddToDo extends StatelessWidget {
         snackPosition: SnackPosition.BOTTOM,
         backgroundColor: const Color(0xFF007BEC),
       );
-    } else if (noteController.titleTextEditor.text == '') {
+    } else if (noteController.titleTextEditor.text.trim() == '') {
       Get.snackbar(
         "Required field is empty.",
         "Please fill title ",
@@ -163,7 +179,7 @@ class AddToDo extends StatelessWidget {
         snackPosition: SnackPosition.BOTTOM,
         backgroundColor: const Color(0xFF007BEC),
       );
-    } else if (noteController.noteTextEditor.text == '') {
+    } else if (noteController.noteTextEditor.text.trim() == '') {
       Get.snackbar(
         "Required field is empty.",
         "Please fill title ",
@@ -173,8 +189,8 @@ class AddToDo extends StatelessWidget {
         snackPosition: SnackPosition.BOTTOM,
         backgroundColor: const Color(0xFF007BEC),
       );
-    } else if (noteController.titleTextEditor.text == '' &&
-        noteController.noteTextEditor == '') {
+    } else if (noteController.titleTextEditor.text.trim() == '' &&
+        noteController.noteTextEditor.text.trim() == '') {
       Get.snackbar(
         "Required fields are empty.",
         "Please fill title and note ",

@@ -1,3 +1,4 @@
+import 'package:date_format/date_format.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:to_do_app/controllers/dateController.dart';
@@ -8,8 +9,11 @@ class CustomTimePicker extends StatelessWidget {
   var boxTextString;
   var timePicker;
 
-  CustomTimePicker(
-      {super.key, required this.boxTextString, required this.timePicker});
+  CustomTimePicker({
+    super.key,
+    required this.boxTextString,
+    required this.timePicker,
+  });
   DateController dateController = Get.put(DateController());
   NoteController noteController = Get.find();
   CustomSpinnerTimePickerPopUP customSpinnerTimePickerPopUP =
@@ -26,6 +30,18 @@ class CustomTimePicker extends StatelessWidget {
       ),
       onPressed: () {
         //time picker popup
+        if (noteController.startTime.value == "") {
+          if (noteController.startDate.value !=
+              formatDate(DateTime.now(), [dd, ".", " ", MM, " ", yyyy])) {
+            noteController.tempStartHour.value = 0;
+            noteController.tempStartMin.value = 0;
+          }
+          //return;
+        } else {
+          var stringTime = noteController.startTime.value.split(":");
+          noteController.tempStartHour.value = int.parse(stringTime[0]);
+          noteController.tempStartMin.value = int.parse(stringTime[1]);
+        }
         customSpinnerTimePickerPopUP.timePickerPopUP(context, boxTextString);
       },
       child: Container(
